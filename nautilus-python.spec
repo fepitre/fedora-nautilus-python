@@ -1,6 +1,6 @@
 Name:           nautilus-python
 Version:        0.4.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -46,7 +46,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 mv $RPM_BUILD_ROOT/%{_docdir}/%{name} installed_docs
 rm $RPM_BUILD_ROOT/%{_libdir}/nautilus/extensions-1.0/*.la
 rm $RPM_BUILD_ROOT/%{_libdir}/%{name}/*.la
-
+mkdir -p $RPM_BUILD_ROOT/%{_libdir}/nautilus/extensions-1.0/python/
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -59,6 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc README AUTHORS COPYING NEWS
 %{_libdir}/%{name}
 %{_libdir}/nautilus/extensions-1.0/lib%{name}.*
+%dir %{_libdir}/nautilus/extensions-1.0/python/
 
 
 %files devel
@@ -68,7 +69,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sat Apr 21 2007 Trond Danelsen <trond.danielsen@gmail.com> - 0.4.3-3
+* Wed May 02 2007 Trond Danielsen <trond.danielsen@gmail.com> - 0.4.3-4
+- Added missing folder. Fixes bug #238591.
+
+* Sat Apr 21 2007 Trond Danielsen <trond.danielsen@gmail.com> - 0.4.3-3
 - Moved example code to devel package.
 
 * Thu Apr 19 2007 Jef Spaleta <jspaleta@gmail.com> - 0.4.3-2
