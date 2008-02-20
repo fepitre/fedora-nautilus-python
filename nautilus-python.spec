@@ -1,6 +1,6 @@
 Name:           nautilus-python
 Version:        0.4.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -69,6 +69,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Feb 20 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 0.4.3-5
+- Autorebuild for GCC 4.3
+
 * Wed May 02 2007 Trond Danielsen <trond.danielsen@gmail.com> - 0.4.3-4
 - Added missing folder. Fixes bug #238591.
 
