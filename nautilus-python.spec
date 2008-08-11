@@ -1,10 +1,10 @@
 Name:           nautilus-python
 Version:        0.4.3
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
-License:        GPL
+License:        GPLv2+
 URL:            http://www.gnome.org/
 Source0:        http://ftp.acc.umu.se/pub/GNOME/sources/%{name}/0.4/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -23,7 +23,6 @@ Python bindings for Nautilus
 %package devel
 Summary:        Python bindings for Nautilus
 Group:          Development/Libraries
-License:        GPL
 Requires:       %{name} = %{version}-%{release}
 Requires:       pkgconfig
 
@@ -69,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Aug 11 2008 Tom "spot" Callaway <tcallawa@redhat.com> - 0.4.3-6
+- fix license tag
+
 * Wed Feb 20 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 0.4.3-5
 - Autorebuild for GCC 4.3
 
