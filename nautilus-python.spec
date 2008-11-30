@@ -1,6 +1,6 @@
 Name:           nautilus-python
 Version:        0.5.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -69,6 +69,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Nov 29 2008 Ignacio Vazquez-Abrams <ivazqueznet+rpm@gmail.com> - 0.5.1-2
+- Rebuild for Python 2.6
+
 * Wed Sep 24 2008 Trond Danielsen <trondd@fedoraproject.org> - 0.5.1-1
 - New upstream version
 
