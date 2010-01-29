@@ -1,23 +1,18 @@
 Name:           nautilus-python
-Version:        0.5.1
-Release:        5%{?dist}
+Version:        0.6.1
+Release:        1%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
 License:        GPLv2+
 URL:            http://www.gnome.org/
-Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.5/%{name}-%{version}.tar.bz2
-Patch0:         %{name}-%{version}-gnome-vfs.patch
+Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.6/%{name}-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  autoconf
-BuildRequires:  automake
-BuildRequires:  libtool
 BuildRequires:  python-devel
 BuildRequires:  nautilus-devel
 BuildRequires:  gnome-vfs2-devel
 BuildRequires:  gnome-python2-devel
-BuildRequires:  eel2-devel
 BuildRequires:  pygtk2-devel
 Requires:       nautilus
 
@@ -37,10 +32,6 @@ Python bindings for Nautilus
 
 %prep
 %setup -q
-%patch0 -p1 -b .gnome-vfs
-autoreconf -ivf
-%{__rm} -rf autom4te.cache
-
 
 %build
 %configure
@@ -77,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jan 28 2010 Patrick Dignan <patrick.dignan at, gmail.com>
+- New upstream release, bugfixes
+
 * Sat Jul 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.5.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
