@@ -1,13 +1,20 @@
 Name:           nautilus-python
 Version:        0.5.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
 License:        GPLv2+
 URL:            http://www.gnome.org/
 Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.5/%{name}-%{version}.tar.bz2
+
+# Fixes problem with macros not defined by Fedora autotools
 Patch0:         %{name}-%{version}-gnome-vfs.patch
+
+# Fixes error with location libpython.so on 64-bit systems
+# upstream bug: https://bugzilla.gnome.org/show_bug.cgi?id=608405
+Patch1:         fix-libpython-lib64-location.patch
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  autoconf
@@ -38,6 +45,7 @@ Python bindings for Nautilus
 %prep
 %setup -q
 %patch0 -p1 -b .gnome-vfs
+%patch1 -p1 
 autoreconf -ivf
 %{__rm} -rf autom4te.cache
 
@@ -77,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jan 28 2010 Patrick Dignan <dignan.patrick at, gmail.com>
+- Fixed error with location of libpython
+
 * Sat Jul 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.5.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
