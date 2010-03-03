@@ -1,19 +1,12 @@
 Name:           nautilus-python
-Version:        0.5.1
-Release:        6%{?dist}
+Version:        0.5.2
+Release:        1%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
 License:        GPLv2+
 URL:            http://www.gnome.org/
 Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.5/%{name}-%{version}.tar.bz2
-
-# Fixes problem with macros not defined by Fedora autotools
-Patch0:         %{name}-%{version}-gnome-vfs.patch
-
-# Fixes error with location libpython.so on 64-bit systems
-# upstream bug: https://bugzilla.gnome.org/show_bug.cgi?id=608405
-Patch1:         fix-libpython-lib64-location.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -26,7 +19,11 @@ BuildRequires:  gnome-vfs2-devel
 BuildRequires:  gnome-python2-devel
 BuildRequires:  eel2-devel
 BuildRequires:  pygtk2-devel
-Requires:       nautilus
+Requires:       nautilus >= 2.6.0
+Requires:       pygtk2 >= 2.8.0
+Requires:       gnome-python2 >= 2.12.0
+Requires:       pygobject2 >= 2.8.0
+Requires:       python2 >= 2.3.5
 
 %description
 Python bindings for Nautilus
@@ -44,11 +41,6 @@ Python bindings for Nautilus
 
 %prep
 %setup -q
-%patch0 -p1 -b .gnome-vfs
-%patch1 -p1 
-autoreconf -ivf
-%{__rm} -rf autom4te.cache
-
 
 %build
 %configure
@@ -85,6 +77,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Mar 1 2010 Patrick Dignan <dignan.patrick at, gmail.com> - 0.5.2-1
+- New upstream release removes need for two patches
+
 * Thu Jan 28 2010 Patrick Dignan <dignan.patrick at, gmail.com>
 - Fixed error with location of libpython
 
