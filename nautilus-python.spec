@@ -1,6 +1,6 @@
 Name:           nautilus-python
 Version:        0.6.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -68,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Jul 25 2010 Patrick Dignan <patrick.dignan at, gmail.com>
+- Rebuild for F14
+
 * Thu Jan 28 2010 Patrick Dignan <patrick.dignan at, gmail.com>
 - New upstream release, bugfixes
 
