@@ -1,12 +1,12 @@
 Name:           nautilus-python
-Version:        0.6.1
-Release:        2%{?dist}
+Version:        0.7.0
+Release:        1%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
 License:        GPLv2+
 URL:            http://www.gnome.org/
-Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.6/%{name}-%{version}.tar.bz2
+Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.7/%{name}-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  python-devel
@@ -63,11 +63,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(-,root,root,-)
-%doc installed_docs/examples installed_docs/documentation.py
+%doc installed_docs/examples
 %{_libdir}/pkgconfig/%{name}.pc
 
 
 %changelog
+* Sun Jul 25 2010 Patrick Dignan <patrick.dignan at, gmail.com>
+- New upstream version 0.7.0
+                                                      
 * Sun Jul 25 2010 Patrick Dignan <patrick.dignan at, gmail.com>
 - Rebuild for F14
 
