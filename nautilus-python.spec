@@ -1,6 +1,6 @@
 Name:           nautilus-python
 Version:        0.7.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -68,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Sep 22 2010 Matthias Clasen <mclasen@redhat.com> - 0.7.0-3
+- Rebuild
+
 * Mon Jul 26 2010 David Malcolm <dmalcolm@redhat.com> - 0.7.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Features/Python_2.7/MassRebuild
 
