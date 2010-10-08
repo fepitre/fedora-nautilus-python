@@ -1,6 +1,6 @@
 Name:           nautilus-python
 Version:        0.7.0
-Release:        3%{?dist}
+Release:        3%{?dist}.1
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -68,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Oct 08 2010 Jesse Keating <jkeating@redhat.com> - 0.7.0-3.1
+- Rebuild for gcc bug 634757
+
 * Wed Sep 22 2010 Matthias Clasen <mclasen@redhat.com> - 0.7.0-3
 - Rebuild
 
