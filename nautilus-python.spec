@@ -1,6 +1,8 @@
+%global NAUTILUS_MAYOR_VER  3.0
+
 Name:           nautilus-python
 Version:        0.7.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -42,9 +44,9 @@ make %{?_smp_mflags}
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 mv $RPM_BUILD_ROOT/%{_docdir}/%{name} installed_docs
-rm $RPM_BUILD_ROOT/%{_libdir}/nautilus/extensions-2.0/*.la
+rm $RPM_BUILD_ROOT/%{_libdir}/nautilus/extensions-%{NAUTILUS_MAYOR_VER}/*.la
 rm $RPM_BUILD_ROOT/%{_libdir}/%{name}/*.la
-mkdir -p $RPM_BUILD_ROOT/%{_libdir}/nautilus/extensions-2.0/python/
+mkdir -p $RPM_BUILD_ROOT/%{_libdir}/nautilus/extensions-%{NAUTILUS_MAYOR_VER}/python/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -57,8 +59,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc README AUTHORS COPYING NEWS
 %{_libdir}/%{name}
-%{_libdir}/nautilus/extensions-2.0/lib%{name}.*
-%dir %{_libdir}/nautilus/extensions-2.0/python/
+%{_libdir}/nautilus/extensions-%{NAUTILUS_MAYOR_VER}/lib%{name}.*
+%dir %{_libdir}/nautilus/extensions-%{NAUTILUS_MAYOR_VER}/python/
 
 
 %files devel
@@ -68,6 +70,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Feb 12 2011 Tim Lauridsen <timlau@fedoraproject.org> - 0.7.0-4
+- Make it build with latest nautilus
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.7.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
