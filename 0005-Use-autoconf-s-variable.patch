@@ -1,0 +1,36 @@
+From 463aca8190dea99d321ea3faf38a2e330b546e50 Mon Sep 17 00:00:00 2001
+From: Hicham HAOUARI <hicham.haouari@gmail.com>
+Date: Tue, 27 Sep 2011 19:01:51 +0000
+Subject: [PATCH 5/6] Use autoconf's  variable
+
+---
+ configure.in         |    1 +
+ examples/Makefile.am |    4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/configure.in b/configure.in
+index 407b0c5..9ea04f9 100644
+--- a/configure.in
++++ b/configure.in
+@@ -1,3 +1,4 @@
++AC_PREREQ(2.60)
+ AC_INIT
+ 
+ PACKAGE=nautilus-python
+diff --git a/examples/Makefile.am b/examples/Makefile.am
+index 45e8909..b2a5903 100644
+--- a/examples/Makefile.am
++++ b/examples/Makefile.am
+@@ -1,7 +1,7 @@
+-docsdir = $(datadir)/doc/$(PACKAGE)
++docsdir = $(docdir)
+ docs_DATA = README
+ 
+-examplesdir = $(datadir)/doc/$(PACKAGE)/examples
++examplesdir = $(docdir)/examples
+ examples_DATA =					\
+ 	background-image.py			\
+ 	block-size-column.py		\
+-- 
+1.7.6.4
+

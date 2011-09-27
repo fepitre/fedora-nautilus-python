@@ -1,0 +1,25 @@
+From f35a3f210999328e5fa7ee025271a53b13d7822e Mon Sep 17 00:00:00 2001
+From: Hicham HAOUARI <hicham.haouari@gmail.com>
+Date: Tue, 27 Sep 2011 20:36:33 +0000
+Subject: [PATCH 7/7] Fix fsf address
+
+---
+ src/nautilus-python.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/src/nautilus-python.c b/src/nautilus-python.c
+index 0e00285..1bcfc9f 100644
+--- a/src/nautilus-python.c
++++ b/src/nautilus-python.c
+@@ -14,7 +14,7 @@
+  *
+  *  You should have received a copy of the GNU General Public License
+  *  along with this program; if not, write to the Free Software
+- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
++ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+  */
+ 
+ #ifdef HAVE_CONFIG_H
+-- 
+1.7.6.4
+
