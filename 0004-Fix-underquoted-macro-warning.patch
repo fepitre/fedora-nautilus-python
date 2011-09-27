@@ -1,0 +1,25 @@
+From 023e60f01d1c7b4f4e186308060b598e1473238f Mon Sep 17 00:00:00 2001
+From: Hicham HAOUARI <hicham.haouari@gmail.com>
+Date: Tue, 27 Sep 2011 18:05:38 +0000
+Subject: [PATCH 4/6] Fix underquoted macro warning
+
+---
+ m4/python.m4 |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/m4/python.m4 b/m4/python.m4
+index 18685f1..c61a0d3 100644
+--- a/m4/python.m4
++++ b/m4/python.m4
+@@ -1,7 +1,7 @@
+ ## this one is commonly used with AM_PATH_PYTHONDIR ...
+ dnl AM_CHECK_PYMOD(MODNAME [,SYMBOL [,ACTION-IF-FOUND [,ACTION-IF-NOT-FOUND]]])
+ dnl Check if a module containing a given symbol is visible to python.
+-AC_DEFUN(AM_CHECK_PYMOD,
++AC_DEFUN([AM_CHECK_PYMOD],
+ [AC_REQUIRE([AM_PATH_PYTHON])
+ py_mod_var=`echo $1['_']$2 | sed 'y%./+-%__p_%'`
+ AC_MSG_CHECKING(for ifelse([$2],[],,[$2 in ])python module $1)
+-- 
+1.7.6.4
+

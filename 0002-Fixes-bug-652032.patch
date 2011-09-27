@@ -1,0 +1,23 @@
+From 58f061b6ecadb8f55f2e88a5fe6cce18113a3428 Mon Sep 17 00:00:00 2001
+From: Adam Plumb <adamplumb@gmail.com>
+Date: Mon, 27 Jun 2011 12:50:41 -0500
+Subject: [PATCH 2/6] Fixes bug #652032 Update the pythondir variable in the
+ nautilus-python.pc.in file.
+
+---
+ nautilus-python.pc.in |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/nautilus-python.pc.in b/nautilus-python.pc.in
+index f73fbb0..8a43f0e 100644
+--- a/nautilus-python.pc.in
++++ b/nautilus-python.pc.in
+@@ -4,4 +4,4 @@ Version: @VERSION@
+ 
+ prefix=@prefix@
+ libdir=${prefix}/lib
+-pythondir=@NAUTILUS_EXTENSION_DIR@/python
++pythondir=@datadir@/nautilus-python/extensions
+-- 
+1.7.6.4
+

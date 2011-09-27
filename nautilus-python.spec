@@ -1,20 +1,37 @@
+%global NAUTILUS_MAYOR_VER  3.0
+
 Name:           nautilus-python
-Version:        0.7.0
-Release:        3%{?dist}
+Version:        1.0
+Release:        1%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
 License:        GPLv2+
 URL:            http://www.gnome.org/
-Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.7/%{name}-%{version}.tar.bz2
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{version}/%{name}-%{version}.tar.bz2
 
 BuildRequires:  python-devel
 BuildRequires:  nautilus-devel
-BuildRequires:  gnome-vfs2-devel
-BuildRequires:  gnome-python2-devel
-BuildRequires:  pygtk2-devel
-Requires:       nautilus
+BuildRequires:  pygobject2-devel
+BuildRequires:  gtk-doc
+BuildRequires:  autoconf automake libtool
+
+Requires:       nautilus >= 3.0
+
+# Patch0:       https://bugzilla.gnome.org/show_bug.cgi?id=653169
+Patch0:         0001-Fixes-bug-653169-Update-the-COPYING-file-with-the-mo.patch
+# Patch1:       https://bugzilla.gnome.org/show_bug.cgi?id=652032
+Patch1:         0002-Fixes-bug-652032.patch
+# Patch2:       https://bugzilla.gnome.org/show_bug.cgi?id=660283
+Patch2:         0003-Fix-html-doc-installation-location.patch
+# Patch3:       https://bugzilla.gnome.org/show_bug.cgi?id=660286
+Patch3:         0004-Fix-underquoted-macro-warning.patch
+# Patch4:       https://bugzilla.gnome.org/show_bug.cgi?id=660287
+Patch4:         0005-Use-autoconf-s-variable.patch
+# Patch5:       https://bugzilla.gnome.org/show_bug.cgi?id=660288
+Patch5:         0006-Add-I-m4-to-top-Makefile.am.patch
+# Patch6:       https://bugzilla.gnome.org/show_bug.cgi?id=660290
+Patch6:         0007-Fix-fsf-address.patch
 
 %description
 Python bindings for Nautilus
@@ -32,22 +49,28 @@ Python bindings for Nautilus
 
 %prep
 %setup -q
+find m4 -type f -not -name 'python.m4' -delete
+%patch0 -p1 -b .update-licence
+%patch1 -p1 -b .bug-652032
+%patch2 -p1 -b .fix-html-doc
+%patch3 -p1 -b .underquoted-macro-warning
+%patch4 -p1 -b .use-docdir-variable
+%patch5 -p1 -b .add-I-m4
+%patch6 -p1 -b .fix-fsf-address
+autoreconf -if -I m4
 
 %build
-%configure
+%configure \
+   --enable-gtk-doc \
+   --docdir=%{_datadir}/doc/%{name}-%{version}
 make %{?_smp_mflags}
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-mv $RPM_BUILD_ROOT/%{_docdir}/%{name} installed_docs
-rm $RPM_BUILD_ROOT/%{_libdir}/nautilus/extensions-2.0/*.la
-rm $RPM_BUILD_ROOT/%{_libdir}/%{name}/*.la
-mkdir -p $RPM_BUILD_ROOT/%{_libdir}/nautilus/extensions-2.0/python/
-
-%clean
-rm -rf $RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
+find $RPM_BUILD_ROOT -name '*.la' -delete
 
 %post -p /sbin/ldconfig
 
@@ -56,18 +79,27 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc README AUTHORS COPYING NEWS
-%{_libdir}/%{name}
-%{_libdir}/nautilus/extensions-2.0/lib%{name}.*
-%dir %{_libdir}/nautilus/extensions-2.0/python/
-
+%{_libdir}/nautilus/extensions-%{NAUTILUS_MAYOR_VER}/lib%{name}.so
+%dir %{_datadir}/%{name}/extensions
 
 %files devel
 %defattr(-,root,root,-)
-%doc installed_docs/examples
+%doc README AUTHORS COPYING NEWS
+%{_datadir}/doc/%{name}-%{version}/examples/*.py
 %{_libdir}/pkgconfig/%{name}.pc
+%{_datadir}/gtk-doc/html/%{name}
 
 
 %changelog
+* Tue Sep 27 2011 Hicham HAOUARI <hicham.haouari@gmail.com> - 1.0-1
+- Update to 1.0
+- Remove BuildRoot tag and %%clean section
+- Own /usr/share/nautilus-python/extensions instead of the old arch
+  dependent locations
+
+* Tue Feb 12 2011 Tim Lauridsen <timlau@fedoraproject.org> - 0.7.0-4
+- Make it build with latest nautilus
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.7.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
