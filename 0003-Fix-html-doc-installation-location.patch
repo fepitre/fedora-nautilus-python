@@ -1,0 +1,24 @@
+From a76bba7ea9d1be82ae43cae2c1ea839a2708925d Mon Sep 17 00:00:00 2001
+From: Hicham HAOUARI <hicham.haouari@gmail.com>
+Date: Tue, 27 Sep 2011 18:02:46 +0000
+Subject: [PATCH 3/6] Fix html doc installation location
+
+---
+ docs/Makefile.am |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+diff --git a/docs/Makefile.am b/docs/Makefile.am
+index 12bd1a2..1f73cbc 100644
+--- a/docs/Makefile.am
++++ b/docs/Makefile.am
+@@ -48,6 +48,7 @@ HTMLFILES =						\
+ 	html/nautilus-python-enum-reference.html \
+ 	html/enum-nautilus-python-operation-result.html  \
+ 	html/nautilus-python.devhelp
++HTML_DATA = $(HTMLFILES)
+ 
+ CSS_FILES = $(PYGOBJECT_PYGDOCS)/style.css
+ CSSdir = $(HTMLdir)
+-- 
+1.7.6.4
+
