@@ -1,8 +1,8 @@
 %global NAUTILUS_MAYOR_VER  3.0
 
 Name:           nautilus-python
-Version:        1.0
-Release:        2%{?dist}
+Version:        1.1
+Release:        1%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -17,21 +17,6 @@ BuildRequires:  gtk-doc
 BuildRequires:  autoconf automake libtool
 
 Requires:       nautilus >= 3.0
-
-# Patch0:       https://bugzilla.gnome.org/show_bug.cgi?id=653169
-Patch0:         0001-Fixes-bug-653169-Update-the-COPYING-file-with-the-mo.patch
-# Patch1:       https://bugzilla.gnome.org/show_bug.cgi?id=652032
-Patch1:         0002-Fixes-bug-652032.patch
-# Patch2:       https://bugzilla.gnome.org/show_bug.cgi?id=660283
-Patch2:         0003-Fix-html-doc-installation-location.patch
-# Patch3:       https://bugzilla.gnome.org/show_bug.cgi?id=660286
-Patch3:         0004-Fix-underquoted-macro-warning.patch
-# Patch4:       https://bugzilla.gnome.org/show_bug.cgi?id=660287
-Patch4:         0005-Use-autoconf-s-variable.patch
-# Patch5:       https://bugzilla.gnome.org/show_bug.cgi?id=660288
-Patch5:         0006-Add-I-m4-to-top-Makefile.am.patch
-# Patch6:       https://bugzilla.gnome.org/show_bug.cgi?id=660290
-Patch6:         0007-Fix-fsf-address.patch
 
 %description
 Python bindings for Nautilus
@@ -50,13 +35,7 @@ Python bindings for Nautilus
 %prep
 %setup -q
 find m4 -type f -not -name 'python.m4' -delete
-%patch0 -p1 -b .update-licence
-%patch1 -p1 -b .bug-652032
-%patch2 -p1 -b .fix-html-doc
-%patch3 -p1 -b .underquoted-macro-warning
-%patch4 -p1 -b .use-docdir-variable
-%patch5 -p1 -b .add-I-m4
-%patch6 -p1 -b .fix-fsf-address
+
 autoreconf -if -I m4
 
 %build
@@ -67,7 +46,6 @@ make %{?_smp_mflags}
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
 find $RPM_BUILD_ROOT -name '*.la' -delete
@@ -91,8 +69,8 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 
 
 %changelog
-* Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+* Wed Feb 08 2012 Hicham HAOUARI <hicham.haouari@gmail.com> - 1.1-1
+- Update to 1.1
 
 * Tue Sep 27 2011 Hicham HAOUARI <hicham.haouari@gmail.com> - 1.0-1
 - Update to 1.0
