@@ -2,7 +2,7 @@
 
 Name:           nautilus-python
 Version:        1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -12,7 +12,7 @@ Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{version}/%{name
 
 BuildRequires:  python-devel
 BuildRequires:  nautilus-devel
-BuildRequires:  pygobject2-devel
+BuildRequires:  pygobject3-devel
 BuildRequires:  gtk-doc
 BuildRequires:  autoconf automake libtool
 
@@ -69,6 +69,9 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 
 
 %changelog
+* Wed Feb 15 2012 Hicham HAOUARI <hicham.haouari@gmail.com> - 1.1-2
+- BuildRequires pygobject3-devel instead of pygobject2-devel
+
 * Wed Feb 08 2012 Hicham HAOUARI <hicham.haouari@gmail.com> - 1.1-1
 - Update to 1.1
 
