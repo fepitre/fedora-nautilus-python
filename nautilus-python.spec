@@ -1,23 +1,18 @@
 Name:           nautilus-python
-Version:        0.5.2
-Release:        1%{?dist}
+Version:        0.7.0
+Release:        3%{?dist}.1
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
 License:        GPLv2+
 URL:            http://www.gnome.org/
-Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.5/%{name}-%{version}.tar.bz2
-
+Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.7/%{name}-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  autoconf
-BuildRequires:  automake
-BuildRequires:  libtool
 BuildRequires:  python-devel
 BuildRequires:  nautilus-devel
 BuildRequires:  gnome-vfs2-devel
 BuildRequires:  gnome-python2-devel
-BuildRequires:  eel2-devel
 BuildRequires:  pygtk2-devel
 Requires:       nautilus >= 2.6.0
 Requires:       pygtk2 >= 2.8.0
@@ -72,16 +67,28 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(-,root,root,-)
-%doc installed_docs/examples installed_docs/documentation.py
+%doc installed_docs/examples
 %{_libdir}/pkgconfig/%{name}.pc
 
 
 %changelog
-* Mon Mar 1 2010 Patrick Dignan <dignan.patrick at, gmail.com> - 0.5.2-1
-- New upstream release removes need for two patches
+* Fri Oct 08 2010 Jesse Keating <jkeating@redhat.com> - 0.7.0-3.1
+- Rebuild for gcc bug 634757
 
-* Thu Jan 28 2010 Patrick Dignan <dignan.patrick at, gmail.com>
-- Fixed error with location of libpython
+* Wed Sep 22 2010 Matthias Clasen <mclasen@redhat.com> - 0.7.0-3
+- Rebuild
+
+* Mon Jul 26 2010 David Malcolm <dmalcolm@redhat.com> - 0.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Features/Python_2.7/MassRebuild
+
+* Sun Jul 25 2010 Patrick Dignan <patrick.dignan at, gmail.com>
+- New upstream version 0.7.0
+                                                      
+* Sun Jul 25 2010 Patrick Dignan <patrick.dignan at, gmail.com>
+- Rebuild for F14
+
+* Thu Jan 28 2010 Patrick Dignan <patrick.dignan at, gmail.com>
+- New upstream release, bugfixes
 
 * Sat Jul 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.5.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
