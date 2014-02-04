@@ -2,7 +2,7 @@
 
 Name:           nautilus-python
 Version:        1.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -40,8 +40,7 @@ autoreconf -if -I m4
 
 %build
 %configure \
-   --enable-gtk-doc \
-   --docdir=%{_datadir}/doc/%{name}-%{version}
+   --enable-gtk-doc
 make %{?_smp_mflags}
 
 
@@ -63,12 +62,16 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %files devel
 %defattr(-,root,root,-)
 %doc README AUTHORS COPYING NEWS
-%{_datadir}/doc/%{name}-%{version}/examples/*.py
+%doc %{_pkgdocdir}/examples/*.py
 %{_libdir}/pkgconfig/%{name}.pc
 %{_datadir}/gtk-doc/html/%{name}
 
 
 %changelog
+* Tue Feb 04 2014 Till Maas <opensource@till.name> - 1.1-6
+- Use %%{_pkgdocdir} (#1046899, #993991, #992325)
+- Fix date in changelog
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
@@ -90,7 +93,7 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 - Own /usr/share/nautilus-python/extensions instead of the old arch
   dependent locations
 
-* Tue Feb 12 2011 Tim Lauridsen <timlau@fedoraproject.org> - 0.7.0-4
+* Sat Feb 12 2011 Tim Lauridsen <timlau@fedoraproject.org> - 0.7.0-4
 - Make it build with latest nautilus
 
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.7.0-3
