@@ -2,7 +2,7 @@
 
 Name:           nautilus-python
 Version:        1.1
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -68,6 +68,9 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 
 
 %changelog
+* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
