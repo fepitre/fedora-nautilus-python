@@ -2,7 +2,7 @@
 
 Name:           nautilus-python
 Version:        1.1
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -41,33 +41,39 @@ autoreconf -if -I m4
 %build
 %configure \
    --enable-gtk-doc
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install DESTDIR=$RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
 find $RPM_BUILD_ROOT -name '*.la' -delete
+rm -rfv $RPM_BUILD_ROOT%{_docdir}
+
 
 %post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
 
+
 %files
-%defattr(-,root,root,-)
-%doc README AUTHORS COPYING NEWS
+%license COPYING
+%doc README AUTHORS NEWS
 %{_libdir}/nautilus/extensions-%{NAUTILUS_MAYOR_VER}/lib%{name}.so
 %dir %{_datadir}/%{name}/extensions
 
 %files devel
-%defattr(-,root,root,-)
-%doc README AUTHORS COPYING NEWS
-%doc %{_pkgdocdir}/examples/*.py
+%license COPYING
+%doc README AUTHORS NEWS
+%doc examples/
 %{_libdir}/pkgconfig/%{name}.pc
 %{_datadir}/gtk-doc/html/%{name}
 
 
 %changelog
+* Fri Dec 09 2016 Raphael Groner <projects.rg@smart.ms> - 1.1-11
+- adjust for epel7
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
