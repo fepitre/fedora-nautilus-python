@@ -2,7 +2,7 @@
 
 Name:           nautilus-python
 Version:        1.1
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -71,6 +71,9 @@ rm -rfv $RPM_BUILD_ROOT%{_docdir}
 
 
 %changelog
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Fri Dec 09 2016 Raphael Groner <projects.rg@smart.ms> - 1.1-11
 - adjust for epel7
 
