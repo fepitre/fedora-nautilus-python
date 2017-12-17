@@ -2,7 +2,7 @@
 
 Name:           nautilus-python
 Version:        1.1
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -16,19 +16,30 @@ BuildRequires:  pygobject3-devel
 BuildRequires:  gtk-doc
 BuildRequires:  autoconf automake libtool
 
+%global _description\
+Python bindings for Nautilus\
+
+
+%description %_description
+
+%package -n python2-nautilus
+Summary: %summary
 Requires:       nautilus >= 3.0
+%{?python_provide:%python_provide python2-nautilus}
+# Remove before F30
+Provides: nautilus-python = %{version}-%{release}
+Provides: nautilus-python%{?_isa} = %{version}-%{release}
+Obsoletes: nautilus-python < %{version}-%{release}
 
-%description
-Python bindings for Nautilus
+%description -n python2-nautilus %_description
 
-
-%package devel
+%package -n python2-nautilus-devel
 Summary:        Python bindings for Nautilus
 Group:          Development/Libraries
-Requires:       %{name} = %{version}-%{release}
+Requires:       python2-nautilus = %{version}-%{release}
 Requires:       pkgconfig
 
-%description devel
+%description -n python2-nautilus-devel
 Python bindings for Nautilus
 
 
@@ -56,13 +67,13 @@ rm -rfv $RPM_BUILD_ROOT%{_docdir}
 %postun -p /sbin/ldconfig
 
 
-%files
+%files -n python2-nautilus
 %license COPYING
 %doc README AUTHORS NEWS
 %{_libdir}/nautilus/extensions-%{NAUTILUS_MAYOR_VER}/lib%{name}.so
 %dir %{_datadir}/%{name}/extensions
 
-%files devel
+%files -n python2-nautilus-devel
 %license COPYING
 %doc README AUTHORS NEWS
 %doc examples/
@@ -71,6 +82,10 @@ rm -rfv $RPM_BUILD_ROOT%{_docdir}
 
 
 %changelog
+* Sun Dec 17 2017 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.1-15
+- Python 2 binary packages renamed to python2-nautilus and python2-nautilus-devel
+  See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3
+
 * Thu Aug 03 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 
