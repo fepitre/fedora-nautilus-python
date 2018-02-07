@@ -2,7 +2,7 @@
 
 Name:           nautilus-python
 Version:        1.1
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -10,7 +10,7 @@ License:        GPLv2+
 URL:            http://www.gnome.org/
 Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{version}/%{name}-%{version}.tar.bz2
 
-BuildRequires:  python-devel
+BuildRequires:  python2-devel
 BuildRequires:  nautilus-devel
 BuildRequires:  pygobject3-devel
 BuildRequires:  gtk-doc
@@ -82,6 +82,10 @@ rm -rfv $RPM_BUILD_ROOT%{_docdir}
 
 
 %changelog
+* Wed Feb 07 2018 Iryna Shcherbina <ishcherb@redhat.com> - 1.1-16
+- Update Python 2 dependency declarations to new packaging standards
+  (See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3)
+
 * Sun Dec 17 2017 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.1-15
 - Python 2 binary packages renamed to python2-nautilus and python2-nautilus-devel
   See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3
