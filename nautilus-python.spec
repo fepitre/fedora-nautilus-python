@@ -1,14 +1,14 @@
 %global NAUTILUS_MAYOR_VER  3.0
 
 Name:           nautilus-python
-Version:        1.1
-Release:        18%{?dist}
+Version:        1.2.1
+Release:        1%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
 License:        GPLv2+
 URL:            http://www.gnome.org/
-Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{version}/%{name}-%{version}.tar.bz2
+Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/%(v=%{version}; echo ${v:0:3}; )/%{name}-%{version}.tar.xz
 
 BuildRequires:  python2-devel
 BuildRequires:  nautilus-devel
@@ -82,6 +82,9 @@ rm -rfv $RPM_BUILD_ROOT%{_docdir}
 
 
 %changelog
+* Sat Jul 21 2018 Raphael Groner <projects.rg@smart.ms> - 1.2.1-1
+- new version
+
 * Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
