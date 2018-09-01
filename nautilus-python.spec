@@ -1,8 +1,19 @@
 %global NAUTILUS_MAYOR_VER  3.0
+%global _description Python bindings for Nautilus
+
+%if %{?fedora}
+%bcond_without  python2
+%bcond_without  python3
+%else
+%bcond_without  python2
+%bcond_with     python3
+%endif
+
+%bcond_with     test_examples
 
 Name:           nautilus-python
 Version:        1.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -11,19 +22,22 @@ URL:            http://www.gnome.org/
 Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/%(v=%{version}; echo ${v:0:3}; )/%{name}-%{version}.tar.xz
 
 BuildRequires:  python2-devel
+BuildRequires:  python3-devel
 BuildRequires:  nautilus-devel
 BuildRequires:  pygobject3-devel
 BuildRequires:  gtk-doc
 BuildRequires:  autoconf automake libtool
 
-%global _description\
-Python bindings for Nautilus\
+# for tests
+BuildRequires:  xorg-x11-server-Xvfb
+BuildRequires:  dbus-x11
+BuildRequires:  nautilus
 
-
-%description %_description
+%description
+%_description
 
 %package -n python2-nautilus
-Summary: %summary
+Summary:        %summary
 Requires:       nautilus >= 3.0
 %{?python_provide:%python_provide python2-nautilus}
 # Remove before F30
@@ -31,42 +45,96 @@ Provides: nautilus-python = %{version}-%{release}
 Provides: nautilus-python%{?_isa} = %{version}-%{release}
 Obsoletes: nautilus-python < %{version}-%{release}
 
-%description -n python2-nautilus %_description
+%description -n python2-nautilus
+%_description
 
 %package -n python2-nautilus-devel
 Summary:        Python bindings for Nautilus
-Group:          Development/Libraries
 Requires:       python2-nautilus = %{version}-%{release}
 Requires:       pkgconfig
 
 %description -n python2-nautilus-devel
-Python bindings for Nautilus
+%_description
+This package installs the development files for Python 2.
+
+%package -n python%{python3_version}-nautilus
+Summary:        %summary
+Requires:       nautilus >= 3.0
+%{?python_provide:%python_provide python3-nautilus}
+
+%description -n python%{python3_version}-nautilus
+%_description
+
+%package -n python%{python3_version}-nautilus-devel
+Summary:        Python bindings for Nautilus
+Requires:       python%{python3_version}-nautilus = %{version}-%{release}
+Requires:       pkgconfig
+
+%description -n python%{python3_version}-nautilus-devel
+%_description
+This package installs the development files for Python 3.
 
 
 %prep
 %setup -q
 find m4 -type f -not -name 'python.m4' -delete
-
 autoreconf -if -I m4
+mkdir python3
+cp -ap -t python3 configure* *.in *.am m4 %{name}.pc* src examples
+cp -ap -t python3 AUTHORS COPYING NEWS README ChangeLog INSTALL
+ln -s ../docs python3
+
 
 %build
+%if %{with python2}
 %configure \
-   --enable-gtk-doc
+  --enable-gtk-doc
 %make_build
+%endif
+%if %{with python3}
+pushd python3
+#export PYTHON_LIB_LOC=%{_libdir}
+export PYTHON_LIB_NAME=python%{python3_version}
+%configure \
+  --enable-gtk-doc
+%make_build
+popd
+%endif
 
 
 %install
+%if %{with python2}
 %make_install DESTDIR=$RPM_BUILD_ROOT
+%endif
+%if %{with python3}
+%make_install DESTDIR=$RPM_BUILD_ROOT -C python3
+%endif
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
 find $RPM_BUILD_ROOT -name '*.la' -delete
 rm -rfv $RPM_BUILD_ROOT%{_docdir}
 
 
-%post -p /sbin/ldconfig
+%check
+%if %{with test_examples}
+install -m0755 -d ~/.local/share/nautilus-python/extensions
+%if %{with python2}
+install -m0644 -p -t ~/.local/share/nautilus-python/extensions python3/examples/*.py*
+export TMPDIR=$(pwd)/examples
+# FIXME dbus service, rhbz#1623781
+xvfb-run -a -d dbus-launch --exit-with-x11 nautilus -c
+rm -v ~/.local/share/nautilus-python/extensions/*.py*
+%endif
+%if %{with python3}
+install -m0644 -p -t ~/.local/share/nautilus-python/extensions python3/examples/*.py*
+export TMPDIR=$(pwd)/python3/examples
+# TODO does nautilus work with python3?
+#xvfb-run -a -d dbus-launch --exit-with-x11 nautilus -c
+rm -v ~/.local/share/nautilus-python/extensions/*.py*
+%endif
+%endif
 
-%postun -p /sbin/ldconfig
 
-
+%if %{with python2}
 %files -n python2-nautilus
 %license COPYING
 %doc README AUTHORS NEWS
@@ -74,14 +142,30 @@ rm -rfv $RPM_BUILD_ROOT%{_docdir}
 %dir %{_datadir}/%{name}/extensions
 
 %files -n python2-nautilus-devel
-%license COPYING
-%doc README AUTHORS NEWS
 %doc examples/
 %{_libdir}/pkgconfig/%{name}.pc
 %{_datadir}/gtk-doc/html/%{name}
+%endif
+
+%if %{with python3}
+%files -n python%{python3_version}-nautilus
+%license COPYING
+%doc README AUTHORS NEWS
+%{_libdir}/nautilus/extensions-%{NAUTILUS_MAYOR_VER}/lib%{name}.so
+%dir %{_datadir}/%{name}/extensions
+
+%files -n python%{python3_version}-nautilus-devel
+%doc python3/examples/
+%{_libdir}/pkgconfig/%{name}.pc
+%{_datadir}/gtk-doc/html/%{name}
+%endif
 
 
 %changelog
+* Fri Aug 31 2018 Raphael Groner <projects.rg@smart.ms> - 1.2.1-2
+- add support for python3
+- execute nautilus self tests with examples, currently b0rken due to a dbus bug
+
 * Sat Jul 21 2018 Raphael Groner <projects.rg@smart.ms> - 1.2.1-1
 - new version
 
