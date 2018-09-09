@@ -93,7 +93,6 @@ ln -s ../docs python3
 %endif
 %if %{with python3}
 pushd python3
-#export PYTHON_LIB_LOC=%{_libdir}
 export PYTHON_LIB_NAME=python%{python3_version}
 %configure \
   --enable-gtk-doc
