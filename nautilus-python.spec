@@ -13,7 +13,7 @@
 
 Name:           nautilus-python
 Version:        1.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Python bindings for Nautilus
 
 Group:          Development/Libraries
@@ -57,20 +57,20 @@ Requires:       pkgconfig
 %_description
 This package installs the development files for Python 2.
 
-%package -n python%{python3_version}-nautilus
+%package -n python3-nautilus
 Summary:        %summary
 Requires:       nautilus >= 3.0
 %{?python_provide:%python_provide python3-nautilus}
 
-%description -n python%{python3_version}-nautilus
+%description -n python3-nautilus
 %_description
 
-%package -n python%{python3_version}-nautilus-devel
+%package -n python3-nautilus-devel
 Summary:        Python bindings for Nautilus
-Requires:       python%{python3_version}-nautilus = %{version}-%{release}
+Requires:       python3-nautilus = %{version}-%{release}
 Requires:       pkgconfig
 
-%description -n python%{python3_version}-nautilus-devel
+%description -n python3-nautilus-devel
 %_description
 This package installs the development files for Python 3.
 
@@ -94,6 +94,7 @@ ln -s ../docs python3
 %if %{with python3}
 pushd python3
 export PYTHON_LIB_NAME=python%{python3_version}
+export PYTHON=%{__python3}
 %configure \
   --enable-gtk-doc
 %make_build
@@ -147,13 +148,13 @@ rm -v ~/.local/share/nautilus-python/extensions/*.py*
 %endif
 
 %if %{with python3}
-%files -n python%{python3_version}-nautilus
+%files -n python3-nautilus
 %license COPYING
 %doc README AUTHORS NEWS
 %{_libdir}/nautilus/extensions-%{NAUTILUS_MAYOR_VER}/lib%{name}.so
 %dir %{_datadir}/%{name}/extensions
 
-%files -n python%{python3_version}-nautilus-devel
+%files -n python3-nautilus-devel
 %doc python3/examples/
 %{_libdir}/pkgconfig/%{name}.pc
 %{_datadir}/gtk-doc/html/%{name}
@@ -161,6 +162,11 @@ rm -v ~/.local/share/nautilus-python/extensions/*.py*
 
 
 %changelog
+* Wed Sep 12 2018 Raphael Groner <projects.rg@smart.ms> - 1.2.1-3
+- use just python3 prefix for subpackage name
+- because unknown how to procee with epel branches
+- fix build with python3
+
 * Fri Aug 31 2018 Raphael Groner <projects.rg@smart.ms> - 1.2.1-2
 - add support for python3
 - execute nautilus self tests with examples, currently b0rken due to a dbus bug
