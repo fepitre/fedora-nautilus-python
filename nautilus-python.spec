@@ -17,8 +17,8 @@ Release:        4%{?dist}
 Summary:        Python bindings for Nautilus
 
 License:        GPLv2+
-URL:            http://www.gnome.org/
-Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/%(v=%{version}; echo ${v:0:3}; )/%{name}-%{version}.tar.xz
+URL:            https://www.gnome.org/
+Source0:        https://ftp.gnome.org/pub/GNOME/sources/%{name}/%(v=%{version}; echo ${v:0:3}; )/%{name}-%{version}.tar.xz
 
 %if %{with python2}
 BuildRequires:  python2-devel
