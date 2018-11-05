@@ -12,8 +12,8 @@
 %bcond_with     test_examples
 
 Name:           nautilus-python
-Version:        1.2.1
-Release:        4%{?dist}
+Version:        1.2.2
+Release:        1%{?dist}
 Summary:        Python bindings for Nautilus
 
 License:        GPLv2+
@@ -182,6 +182,9 @@ rm -v ~/.local/share/%{name}/extensions/*.py*
 
 
 %changelog
+* Mon Nov 05 2018 Kalev Lember <klember@redhat.com> - 1.2.2-1
+- Update to 1.2.2
+
 * Tue Oct 30 2018 Raphael Groner <projects.rg@smart.ms> - 1.2.1-4
 - separate properly builds of python2 and python3, rhbz#1636626
 - drop obsolete Group tag
