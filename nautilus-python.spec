@@ -4,8 +4,8 @@ Release:        1%{?dist}
 Summary:        Python bindings for Nautilus
 
 License:        GPLv2+
-URL:            https://www.gnome.org/
-Source0:        https://ftp.gnome.org/pub/GNOME/sources/%{name}/%(v=%{version}; echo ${v:0:3}; )/%{name}-%{version}.tar.xz
+URL:            https://wiki.gnome.org/Projects/NautilusPython
+Source0:        https://download.gnome.org/sources/%{name}/%(v=%{version}; echo ${v:0:3}; )/%{name}-%{version}.tar.xz
 
 BuildRequires:  python2-devel
 BuildRequires:  nautilus-devel
@@ -80,6 +80,7 @@ rm -rfv $RPM_BUILD_ROOT%{_docdir}
 - Rename the binary package back to nautilus-python (#1636626)
 - Simplify packaging
 - Co-own gtk-doc directories
+- Update upstream URLs
 
 * Tue Oct 30 2018 Raphael Groner <projects.rg@smart.ms> - 1.2.1-4
 - separate properly builds of python2 and python3, rhbz#1636626
