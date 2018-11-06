@@ -1,13 +1,4 @@
 %global NAUTILUS_MAYOR_VER  3.0
-%global _description Python bindings for Nautilus
-
-%if %{?fedora}
-%bcond_without  python2
-%bcond_without  python3
-%else
-%bcond_without  python2
-%bcond_with     python3
-%endif
 
 %bcond_with     test_examples
 
@@ -20,112 +11,60 @@ License:        GPLv2+
 URL:            https://www.gnome.org/
 Source0:        https://ftp.gnome.org/pub/GNOME/sources/%{name}/%(v=%{version}; echo ${v:0:3}; )/%{name}-%{version}.tar.xz
 
-%if %{with python2}
 BuildRequires:  python2-devel
-%endif
-%if %{with python3}
-BuildRequires:  python3-devel
-%endif
 BuildRequires:  nautilus-devel
 BuildRequires:  pygobject3-devel
 BuildRequires:  gtk-doc
-BuildRequires:  autoconf automake libtool
 
 # for tests
 BuildRequires:  xorg-x11-server-Xvfb
 BuildRequires:  dbus-x11
 BuildRequires:  nautilus
 
+Requires:       nautilus >= 3.0
+
+# Renamed / Obsoleted in F30
+Provides:       python2-nautilus = %{version}-%{release}
+Provides:       python2-nautilus%{?_isa} = %{version}-%{release}
+Obsoletes:      python2-nautilus < %{version}-%{release}
+# Renamed / Obsoleted in F30
+Provides:       python3-nautilus = %{version}-%{release}
+Provides:       python3-nautilus%{?_isa} = %{version}-%{release}
+Obsoletes:      python3-nautilus < %{version}-%{release}
+
 %description
-%_description
+Python bindings for Nautilus
 
-%package -n python2-nautilus
-Summary:        %summary
-Requires:       nautilus >= 3.0
-%{?python_provide:%python_provide python2-nautilus}
-# Remove before F30
-Provides: %{name} = %{version}-%{release}
-Provides: %{name}%{?_isa} = %{version}-%{release}
-Obsoletes: %{name} < %{version}-%{release}
 
-%description -n python2-nautilus
-%_description
-
-%package -n python2-nautilus-devel
+%package devel
 Summary:        Python bindings for Nautilus
-Requires:       python2-nautilus = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       pkgconfig
+# Renamed / Obsoleted in F30
+Provides:       python2-nautilus-devel = %{version}-%{release}
+Provides:       python2-nautilus-devel%{?_isa} = %{version}-%{release}
+Obsoletes:      python2-nautilus-devel < %{version}-%{release}
+# Renamed / Obsoleted in F30
+Provides:       python3-nautilus-devel = %{version}-%{release}
+Provides:       python3-nautilus-devel%{?_isa} = %{version}-%{release}
+Obsoletes:      python3-nautilus-devel < %{version}-%{release}
 
-%description -n python2-nautilus-devel
-%_description
-This package installs the development files for Python 2.
-
-%package -n python3-nautilus
-Summary:        %summary
-Requires:       nautilus >= 3.0
-%{?python_provide:%python_provide python3-nautilus}
-
-%description -n python3-nautilus
-%_description
-
-%package -n python3-nautilus-devel
-Summary:        Python bindings for Nautilus
-Requires:       python3-nautilus = %{version}-%{release}
-Requires:       pkgconfig
-
-%description -n python3-nautilus-devel
-%_description
-This package installs the development files for Python 3.
+%description devel
+Python bindings for Nautilus
 
 
 %prep
 %setup -q
-find m4 -type f -not -name 'python.m4' -delete
-autoreconf -if -I m4
-mkdir python3
-cp -ap -t python3 configure* *.in *.am m4 %{name}.pc* src examples
-cp -ap -t python3 AUTHORS COPYING NEWS README ChangeLog INSTALL
-ln -s ../docs python3
 
 
 %build
-%if %{with python2}
 %configure \
   --enable-gtk-doc
 %make_build
-%endif
-%if %{with python3}
-pushd python3
-export PYTHON_LIB_NAME=python%{python3_version}
-export PYTHON=%{__python3}
-%configure \
-  --enable-gtk-doc
-%make_build
-popd
-%endif
 
 
 %install
-# need to install build with python3 first because it could overwrite default build
-%if %{with python3}
-%make_install DESTDIR=$RPM_BUILD_ROOT -C python3
-mv $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/lib%{name}.so \
- $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/lib%{name}3.so
-# install symlink for backwards compatibility
-%if 0
-# TODO enable symlink when nautilus ported to support python3 ´
-ln -fs lib%{name}3.so \
- $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/lib%{name}.so
-%endif
-%endif
-%if %{with python2}
 %make_install DESTDIR=$RPM_BUILD_ROOT
-mv $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/lib%{name}.so \
- $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/lib%{name}2.so
-# install symlink for backwards compatibility
-ln -fs lib%{name}2.so \
- $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/lib%{name}.so
-%endif
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
 find $RPM_BUILD_ROOT -name '*.la' -delete
 rm -rfv $RPM_BUILD_ROOT%{_docdir}
@@ -134,56 +73,30 @@ rm -rfv $RPM_BUILD_ROOT%{_docdir}
 %check
 %if %{with test_examples}
 install -m0755 -d ~/.local/share/%{name}/extensions
-%if %{with python2}
 install -m0644 -p -t ~/.local/share/%{name}/extensions examples/*.py*
 export TMPDIR=$(pwd)/examples
 # FIXME dbus service, rhbz#1623781
 xvfb-run -a -d dbus-launch --exit-with-x11 nautilus -c
 rm -v ~/.local/share/%{name}/extensions/*.py*
 %endif
-%if %{with python3}
-install -m0644 -p -t ~/.local/share/%{name}/extensions python3/examples/*.py*
-export TMPDIR=$(pwd)/python3/examples
-# TODO does nautilus work with python3?
-#xvfb-run -a -d dbus-launch --exit-with-x11 nautilus -c
-rm -v ~/.local/share/%{name}/extensions/*.py*
-%endif
-%endif
 
 
-%if %{with python2}
-%files -n python2-nautilus
+%files
 %license COPYING
 %doc README AUTHORS NEWS
-%{_libdir}/nautilus/extensions-%{NAUTILUS_MAYOR_VER}/lib%{name}*.so
-%exclude %{_libdir}/nautilus/extensions-%{NAUTILUS_MAYOR_VER}/lib%{name}3.so
+%{_libdir}/nautilus/extensions-%{NAUTILUS_MAYOR_VER}/lib%{name}.so
 %dir %{_datadir}/%{name}/extensions
 
-%files -n python2-nautilus-devel
+%files devel
 %doc examples/
 %{_libdir}/pkgconfig/%{name}.pc
 %{_datadir}/gtk-doc/html/%{name}
-%endif
-
-%if %{with python3}
-%files -n python3-nautilus
-%license COPYING
-%doc README AUTHORS NEWS
-%{_libdir}/nautilus/extensions-%{NAUTILUS_MAYOR_VER}/lib%{name}3.so
-%exclude %{_libdir}/nautilus/extensions-%{NAUTILUS_MAYOR_VER}/lib%{name}2.so
-%exclude %{_libdir}/nautilus/extensions-%{NAUTILUS_MAYOR_VER}/lib%{name}.so
-%dir %{_datadir}/%{name}/extensions
-
-%files -n python3-nautilus-devel
-%doc python3/examples/
-%{_libdir}/pkgconfig/%{name}.pc
-%{_datadir}/gtk-doc/html/%{name}
-%endif
 
 
 %changelog
 * Mon Nov 05 2018 Kalev Lember <klember@redhat.com> - 1.2.2-1
 - Update to 1.2.2
+- Rename the binary package back to nautilus-python (#1636626)
 
 * Tue Oct 30 2018 Raphael Groner <projects.rg@smart.ms> - 1.2.1-4
 - separate properly builds of python2 and python3, rhbz#1636626
