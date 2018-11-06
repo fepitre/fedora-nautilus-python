@@ -1,3 +1,9 @@
+%if 0%{?fedora} && 0%{?fedora} <= 29 || 0%{?rhel} && 0%{?rhel} <= 7
+%global with_python3 0
+%else
+%global with_python3 1
+%endif
+
 Name:           nautilus-python
 Version:        1.2.2
 Release:        1%{?dist}
@@ -7,9 +13,13 @@ License:        GPLv2+
 URL:            https://wiki.gnome.org/Projects/NautilusPython
 Source0:        https://download.gnome.org/sources/%{name}/%(v=%{version}; echo ${v:0:3}; )/%{name}-%{version}.tar.xz
 
-BuildRequires:  python2-devel
 BuildRequires:  nautilus-devel
 BuildRequires:  pygobject3-devel
+%if %{with_python3}
+BuildRequires:  python3-devel
+%else
+BuildRequires:  python2-devel
+%endif
 BuildRequires:  gtk-doc
 
 Requires:       nautilus >= 3.0
@@ -48,6 +58,11 @@ Python bindings for Nautilus
 
 
 %build
+%if %{with_python3}
+export PYTHON="%{__python3}"
+%else
+export PYTHON="%{__python2}"
+%endif
 %configure \
   --enable-gtk-doc
 %make_build
@@ -81,6 +96,7 @@ rm -rfv $RPM_BUILD_ROOT%{_docdir}
 - Simplify packaging
 - Co-own gtk-doc directories
 - Update upstream URLs
+- Built against Python 3 starting with F30
 
 * Tue Oct 30 2018 Raphael Groner <projects.rg@smart.ms> - 1.2.1-4
 - separate properly builds of python2 and python3, rhbz#1636626
