@@ -69,6 +69,8 @@ rm -rfv $RPM_BUILD_ROOT%{_docdir}
 %files devel
 %doc examples/
 %{_libdir}/pkgconfig/nautilus-python.pc
+%dir %{_datadir}/gtk-doc
+%dir %{_datadir}/gtk-doc/html
 %{_datadir}/gtk-doc/html/nautilus-python/
 
 
@@ -77,6 +79,7 @@ rm -rfv $RPM_BUILD_ROOT%{_docdir}
 - Update to 1.2.2
 - Rename the binary package back to nautilus-python (#1636626)
 - Simplify packaging
+- Co-own gtk-doc directories
 
 * Tue Oct 30 2018 Raphael Groner <projects.rg@smart.ms> - 1.2.1-4
 - separate properly builds of python2 and python3, rhbz#1636626
