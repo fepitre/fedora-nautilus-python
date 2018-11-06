@@ -1,7 +1,3 @@
-%global NAUTILUS_MAYOR_VER  3.0
-
-%bcond_with     test_examples
-
 Name:           nautilus-python
 Version:        1.2.2
 Release:        1%{?dist}
@@ -15,11 +11,6 @@ BuildRequires:  python2-devel
 BuildRequires:  nautilus-devel
 BuildRequires:  pygobject3-devel
 BuildRequires:  gtk-doc
-
-# for tests
-BuildRequires:  xorg-x11-server-Xvfb
-BuildRequires:  dbus-x11
-BuildRequires:  nautilus
 
 Requires:       nautilus >= 3.0
 
@@ -39,7 +30,6 @@ Python bindings for Nautilus
 %package devel
 Summary:        Python bindings for Nautilus
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-Requires:       pkgconfig
 # Renamed / Obsoleted in F30
 Provides:       python2-nautilus-devel = %{version}-%{release}
 Provides:       python2-nautilus-devel%{?_isa} = %{version}-%{release}
@@ -64,39 +54,29 @@ Python bindings for Nautilus
 
 
 %install
-%make_install DESTDIR=$RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
+%make_install
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/nautilus-python/extensions
 find $RPM_BUILD_ROOT -name '*.la' -delete
 rm -rfv $RPM_BUILD_ROOT%{_docdir}
-
-
-%check
-%if %{with test_examples}
-install -m0755 -d ~/.local/share/%{name}/extensions
-install -m0644 -p -t ~/.local/share/%{name}/extensions examples/*.py*
-export TMPDIR=$(pwd)/examples
-# FIXME dbus service, rhbz#1623781
-xvfb-run -a -d dbus-launch --exit-with-x11 nautilus -c
-rm -v ~/.local/share/%{name}/extensions/*.py*
-%endif
 
 
 %files
 %license COPYING
 %doc README AUTHORS NEWS
-%{_libdir}/nautilus/extensions-%{NAUTILUS_MAYOR_VER}/lib%{name}.so
-%dir %{_datadir}/%{name}/extensions
+%{_libdir}/nautilus/extensions-3.0/libnautilus-python.so
+%dir %{_datadir}/nautilus-python/extensions
 
 %files devel
 %doc examples/
-%{_libdir}/pkgconfig/%{name}.pc
-%{_datadir}/gtk-doc/html/%{name}
+%{_libdir}/pkgconfig/nautilus-python.pc
+%{_datadir}/gtk-doc/html/nautilus-python/
 
 
 %changelog
 * Mon Nov 05 2018 Kalev Lember <klember@redhat.com> - 1.2.2-1
 - Update to 1.2.2
 - Rename the binary package back to nautilus-python (#1636626)
+- Simplify packaging
 
 * Tue Oct 30 2018 Raphael Groner <projects.rg@smart.ms> - 1.2.1-4
 - separate properly builds of python2 and python3, rhbz#1636626
