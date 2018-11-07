@@ -6,13 +6,14 @@
 
 Name:           nautilus-python
 Version:        1.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python bindings for Nautilus
 
 License:        GPLv2+
 URL:            https://wiki.gnome.org/Projects/NautilusPython
 Source0:        https://download.gnome.org/sources/%{name}/%(v=%{version}; echo ${v:0:3}; )/%{name}-%{version}.tar.xz
 
+BuildRequires:  gtk-doc
 BuildRequires:  nautilus-devel
 BuildRequires:  pygobject3-devel
 %if %{with_python3}
@@ -20,9 +21,13 @@ BuildRequires:  python3-devel
 %else
 BuildRequires:  python2-devel
 %endif
-BuildRequires:  gtk-doc
 
 Requires:       nautilus >= 3.0
+%if %{with_python3}
+Requires:       python3-gobject-base%{?_isa}
+%else
+Requires:       python2-gobject-base%{?_isa}
+%endif
 
 # Renamed / Obsoleted in F30
 Provides:       python2-nautilus = %{version}-%{release}
@@ -90,6 +95,9 @@ rm -rfv $RPM_BUILD_ROOT%{_docdir}
 
 
 %changelog
+* Wed Nov 07 2018 Kalev Lember <klember@redhat.com> - 1.2.2-2
+- Add runtime requires on python2/python3-gobject
+
 * Mon Nov 05 2018 Kalev Lember <klember@redhat.com> - 1.2.2-1
 - Update to 1.2.2
 - Rename the binary package back to nautilus-python (#1636626)
