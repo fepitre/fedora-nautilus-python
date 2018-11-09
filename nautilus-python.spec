@@ -26,7 +26,11 @@ Requires:       nautilus >= 3.0
 %if %{with_python3}
 Requires:       python3-gobject-base%{?_isa}
 %else
+%if 0%{?rhel} == 7
+Requires:       python-gobject-base%{?_isa}
+%else
 Requires:       python2-gobject-base%{?_isa}
+%endif
 %endif
 
 # Renamed / Obsoleted in F30
