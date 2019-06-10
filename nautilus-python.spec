@@ -6,12 +6,16 @@
 
 Name:           nautilus-python
 Version:        1.2.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Python bindings for Nautilus
 
 License:        GPLv2+
 URL:            https://wiki.gnome.org/Projects/NautilusPython
 Source0:        https://download.gnome.org/sources/%{name}/%(v=%{version}; echo ${v:0:3}; )/%{name}-%{version}.tar.xz
+
+# Add Python 3.8 compatibility
+# Sent upstream: https://gitlab.gnome.org/GNOME/nautilus-python/merge_requests/5
+Patch0: python38-compat.patch
 
 BuildRequires:  gtk-doc
 BuildRequires:  nautilus-devel
@@ -64,7 +68,9 @@ Python bindings for Nautilus
 
 %prep
 %setup -q
+%patch0 -p1
 
+autoreconf -fi
 
 %build
 %if %{with_python3}
@@ -99,6 +105,9 @@ rm -rfv $RPM_BUILD_ROOT%{_docdir}
 
 
 %changelog
+* Mon Jun 10 2019 Charalampos Stratakis <cstratak@redhat.com> - 1.2.2-4
+- Add Python 3.8 compatibility
+
 * Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
