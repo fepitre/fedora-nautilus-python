@@ -6,7 +6,7 @@
 
 Name:           nautilus-python
 Version:        1.2.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python bindings for Nautilus
 
 License:        GPLv2+
@@ -98,6 +98,9 @@ rm -rfv $RPM_BUILD_ROOT%{_docdir}
 
 
 %changelog
+* Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Thu Jul 18 2019 Kalev Lember <klember@redhat.com> - 1.2.3-1
 - Update to 1.2.3
 
