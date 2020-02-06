@@ -4,6 +4,8 @@
 %global with_python3 1
 %endif
 
+%global _legacy_common_support 1
+
 Name:           nautilus-python
 Version:        1.2.3
 Release:        4%{?dist}
